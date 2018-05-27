@@ -1,10 +1,10 @@
 #!/usr/bin/python3
 
 import socket
-import time
+import base64
 import _thread
 
-rec_ip="127.0.0.1"
+rec_ip="127.24.25.30"
 rec_port=8888
 s=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
 
@@ -13,21 +13,21 @@ s.bind((rec_ip,rec_port))
 def recv():
 	while True:
 		recv_content=s.recvfrom(1000)	
-	
-		string=recv_content[0].decode(encoding='utf-8', errors='strict').split()
+		decrypt=base64.b64decode(recv_content[0])	
+		string=decrypt.decode(encoding='utf-8', errors='strict').split()
 		string_cor=""
 		for i in range(len(string)):
 			string_cor=string_cor+" "+string[i]
 			
-		print(string_cor)
+		print(string_cor.lstrip())
 
 #	time.sleep(1)
 def send():
 	while True:
-
-		msg=input().encode(encoding='utf-8', errors='strict')
+		encrypt=base64.b64encode
+		msg=encrypt(input().encode(encoding='utf-8', errors='strict'))
 	
-		s.sendto(msg,('127.0.0.1',9999))
+		s.sendto(msg,('127.24.25.1',9999))
 
 
 	
